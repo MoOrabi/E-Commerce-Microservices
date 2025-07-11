@@ -13,9 +13,9 @@ public class Customer {
 
     private String id;
 
-    private String firstName;
+    private String firstname;
 
-    private String lastName;
+    private String lastname;
 
     private String email;
 
