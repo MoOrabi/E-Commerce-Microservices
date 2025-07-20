@@ -4,8 +4,8 @@ spring:
       username: orabi
       password: orabi
       host: localhost
+      authentication-database: admin
       port: 27017
       database: customer
-      authentication-data: admin
 server:
   port: 8090

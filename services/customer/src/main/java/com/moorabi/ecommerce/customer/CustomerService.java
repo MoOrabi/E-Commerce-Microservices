@@ -18,7 +18,7 @@ public class CustomerService {
 
     public String createCustomer(@Valid CustomerRequest request) {
         var customer = repository.save(mapper.toCustomer(request));
-        return null;
+        return customer.getId();
     }
 
     public void updateCustomer(CustomerRequest request) {

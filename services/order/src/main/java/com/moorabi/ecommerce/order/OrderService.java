@@ -2,8 +2,12 @@ package com.moorabi.ecommerce.order;
 
 import com.moorabi.ecommerce.customer.CustomerClient;
 import com.moorabi.ecommerce.exception.BusinessException;
+import com.moorabi.ecommerce.kafka.OrderConfirmation;
+import com.moorabi.ecommerce.kafka.OrderProducer;
 import com.moorabi.ecommerce.orderline.OrderLineRequest;
 import com.moorabi.ecommerce.orderline.OrderLineService;
+import com.moorabi.ecommerce.payment.PaymentClient;
+import com.moorabi.ecommerce.payment.PaymentRequest;
 import com.moorabi.ecommerce.product.ProductClient;
 import com.moorabi.ecommerce.product.PurchaseRequest;
 import jakarta.persistence.EntityNotFoundException;
@@ -21,10 +25,10 @@ public class OrderService {
     private final OrderRepository repository;
     private final OrderMapper mapper;
     private final CustomerClient customerClient;
-//    private final PaymentClient paymentClient;
+    private final PaymentClient paymentClient;
     private final ProductClient productClient;
     private final OrderLineService orderLineService;
-//    private final OrderProducer orderProducer;
+    private final OrderProducer orderProducer;
 
     @Transactional
     public Integer createOrder(OrderRequest request) {
@@ -45,24 +49,24 @@ public class OrderService {
                     )
             );
         }
-//        var paymentRequest = new PaymentRequest(
-//                request.amount(),
-//                request.paymentMethod(),
-//                order.getId(),
-//                order.getReference(),
-//                customer
-//        );
-//        paymentClient.requestOrderPayment(paymentRequest);
-//
-//        orderProducer.sendOrderConfirmation(
-//                new OrderConfirmation(
-//                        request.reference(),
-//                        request.amount(),
-//                        request.paymentMethod(),
-//                        customer,
-//                        purchasedProducts
-//                )
-//        );
+        var paymentRequest = new PaymentRequest(
+                request.amount(),
+                request.paymentMethod(),
+                order.getId(),
+                order.getReference(),
+                customer
+        );
+        paymentClient.requestOrderPayment(paymentRequest);
+
+        orderProducer.sendOrderConfirmation(
+                new OrderConfirmation(
+                        request.reference(),
+                        request.amount(),
+                        request.paymentMethod(),
+                        customer,
+                        purchasedProducts
+                )
+        );
 
         return order.getId();
     }

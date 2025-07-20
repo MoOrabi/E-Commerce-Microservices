@@ -3,8 +3,8 @@ server:
 spring:
   data:
     mongodb:
-      username: moorabi
-      password: moorabi
+      username: orabi
+      password: orabi
       host: localhost
       port: 27017
       database: notification
@@ -18,7 +18,7 @@ spring:
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
         spring.json.trusted.packages: '*'
-        spring.json.type.mapping: orderConfirmation:com.moorabi.ecommerce.kafka.order.OrderConfirmation, paymentConfirmation:com.moorabi.ecommerce.kafka.payment.PaymentConfirmation
+        spring.json.type.mapping: orderConfirmation:org.moorabi.ecommerce.kafka.order.OrderConfirmation,paymentConfirmation:org.moorabi.ecommerce.kafka.payment.PaymentConfirmation
   mail:
     host: localhost
     port: 1025
